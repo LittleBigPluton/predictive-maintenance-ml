@@ -1,0 +1,18 @@
+# Ignore all python cache files
+__pycache__/
+*.pyc
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Ignore virtual environment
+venv_predictive_maintenance
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Ignore notebook files
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
