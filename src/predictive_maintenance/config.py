@@ -25,4 +25,14 @@ XGB_SEARCH_SPACE = {
     "classifier__reg_alpha": [0, 0.01, 0.1, 0.5],
     "classifier__reg_lambda": [1, 2, 5, 10],
 }
+
+# --- Decision threshold (Threshold and Calibration section) ------------------
+# Recall floor used when selecting the operating threshold from training-set OOF predictions.
+MIN_RECALL = 0.80
+
+# --- Business-cost trade-off (Threshold and Calibration section) -------------
+# Illustrative only. Replace with real maintenance/downtime budget figures before
+# using the cost-minimizing threshold for an actual deployment decision.
+COST_FALSE_NEGATIVE = 5000  # missed failure: unplanned downtime + potential damage
+COST_FALSE_POSITIVE = 150  # false alarm: technician inspection time
  
