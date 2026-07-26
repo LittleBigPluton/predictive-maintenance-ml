@@ -16,3 +16,9 @@ ENV/
 # Ignore notebook files
 .ipynb_checkpoints/
 */.ipynb_checkpoints/
+
+# Ignore test coverage files
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
