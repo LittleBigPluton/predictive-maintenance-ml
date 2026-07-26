@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from ucimlrepo import fetch_ucirepo
-
+from .config import TEST_SIZE, RANDOM_STATE
 
 def load_raw_dataset():
     dataset = fetch_ucirepo(id=601)
@@ -22,3 +22,6 @@ def get_features_and_target(maintenance_df, feature_columns, target_column="Mach
     feature_data = maintenance_df[feature_columns].copy()
     target_data = maintenance_df[target_column]
     return feature_data, target_data
+
+def split_train_test(feature_data, target_data):
+    return train_test_split(feature_data, target_data, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=target_data)
