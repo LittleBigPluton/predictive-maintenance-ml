@@ -3,7 +3,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.pipeline import Pipeline
 from xgboost import XGBClassifier
-from config import RANDOM_STATE
+from .config import RANDOM_STATE
 
 
 def add_engineered_features(df):
