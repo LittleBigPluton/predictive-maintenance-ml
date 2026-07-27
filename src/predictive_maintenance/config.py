@@ -35,4 +35,8 @@ MIN_RECALL = 0.80
 # using the cost-minimizing threshold for an actual deployment decision.
 COST_FALSE_NEGATIVE = 5000  # missed failure: unplanned downtime + potential damage
 COST_FALSE_POSITIVE = 150  # false alarm: technician inspection time
- 
+
+# --- Leakage policy -------------------------
+# The five documented failure-mode flags used to construct `Machine failure`.
+# Never used as model inputs — only for post-hoc interpretation (Failure-Mode Detection).
+FAILURE_MODE_COLUMNS = ["TWF", "HDF", "PWF", "OSF", "RNF"]
