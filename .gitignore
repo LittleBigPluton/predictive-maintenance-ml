@@ -23,3 +23,6 @@ reports/notebook/
 .coverage.*
 htmlcov/
 coverage.xml
+
+# Ignore binary model
+artifacts/*.joblib
