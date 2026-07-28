@@ -1,0 +1,19 @@
+{
+  "model_name": "Tuned Random Forest",
+  "decision_threshold": 0.575,
+  "cost_minimizing_threshold": 0.10514190469576137,
+  "random_state": 42,
+  "test_size": 0.2,
+  "test_metrics": {
+    "Model": "Tuned Random Forest",
+    "Threshold": 0.575,
+    "Accuracy": 0.9915,
+    "Balanced Accuracy": 0.8962824260138837,
+    "Precision": 0.9473684210526315,
+    "Recall": 0.7941176470588235,
+    "F1-score": 0.864,
+    "F2-score": 0.8206686930091185,
+    "ROC-AUC": 0.9762247290220436,
+    "PR-AUC": 0.8763657772197765
+  }
+}

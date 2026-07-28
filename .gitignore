@@ -16,9 +16,13 @@ ENV/
 # Ignore notebook files
 .ipynb_checkpoints/
 */.ipynb_checkpoints/
+reports/notebook/
 
 # Ignore test coverage files
 .coverage
 .coverage.*
 htmlcov/
 coverage.xml
+
+# Ignore binary model
+artifacts/*.joblib

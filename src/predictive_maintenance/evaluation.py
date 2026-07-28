@@ -24,7 +24,8 @@ from .config import (
     COST_FALSE_POSITIVE
 )
 
-CV_SCORING = {"average_precision": "average_precision", "roc_auc": "roc_auc", "precision": "precision", "recall": "recall", "f1": "f1", "f2": make_scorer(fbeta_score, beta=2, zero_division=0)}
+CV_SCORING = {"average_precision": "average_precision", "roc_auc": "roc_auc", "precision": make_scorer(precision_score, zero_division=0), "recall": make_scorer(recall_score, zero_division=0),
+              "f1": make_scorer(f1_score, zero_division=0), "f2": make_scorer(fbeta_score, beta=2, zero_division=0)}
 
 def make_cv(random_state=RANDOM_STATE, n_splits=N_SPLITS):
     return StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)

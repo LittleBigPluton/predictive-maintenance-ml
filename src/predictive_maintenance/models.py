@@ -24,7 +24,7 @@ def build_models(tree_preprocessor, linear_preprocessor, scale_pos_weight):
         "Balanced Logistic Regression": Pipeline([("preprocessor", linear_preprocessor),
                                                   ("classifier",LogisticRegression(random_state=RANDOM_STATE, max_iter=1000, class_weight="balanced"))]),
         "L1 Logistic Regression": Pipeline([("preprocessor", linear_preprocessor),
-                                            ("classifier",LogisticRegression(penalty="l1", solver="liblinear", class_weight="balanced", random_state=RANDOM_STATE, max_iter=1000))]),
+                                            ("classifier",LogisticRegression(l1_ratio=1.0, solver="liblinear", class_weight="balanced", random_state=RANDOM_STATE, max_iter=1000))]),
         "Decision Tree": Pipeline([("preprocessor", tree_preprocessor),
                                    ("classifier",DecisionTreeClassifier(max_depth=6, class_weight="balanced", random_state=RANDOM_STATE))]),
         "Random Forest": Pipeline([("preprocessor", tree_preprocessor),
