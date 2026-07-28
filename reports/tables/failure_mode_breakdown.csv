@@ -1,0 +1,6 @@
+Failure mode,Test cases,Caught (recall)
+TWF,10,0.1
+HDF,29,0.9310344827586207
+PWF,13,0.9230769230769231
+OSF,16,1.0
+RNF,4,0.0
