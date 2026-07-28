@@ -8,8 +8,8 @@ from sklearn.metrics import classification_report
 
 
 def create_output_directories(reports_dir=Path("reports"), artifacts_dir=Path("artifacts")):
-    tables_dir = reports_dir / "tables"
-    figures_dir = reports_dir / "figures"
+    tables_dir = reports_dir / "cli" / "tables"
+    figures_dir = reports_dir / "cli" / "figures"
     tables_dir.mkdir(parents=True, exist_ok=True)
     figures_dir.mkdir(parents=True, exist_ok=True)
     artifacts_dir.mkdir(parents=True, exist_ok=True)
