@@ -10,8 +10,9 @@ from predictive_maintenance.evaluation import (
     get_calibration_curve,
     get_oof_probabilities,
     make_cv,
-    select_threshold
+    select_threshold,
 )
+
 
 def test_threshold_and_evaluation_functions():
     # Create a small imbalanced classification dataset

@@ -2,46 +2,33 @@
 import numpy as np
 import pandas as pd
 
-from .data import (
-    load_raw_dataset,
-    get_schema,
-    get_features_and_target,
-    split_train_test
-)
-from .processing import (
-    add_engineered_features,
-    get_engineered_numerical_features,
-    build_preprocessors
-)
-from .config import (
-    RANDOM_STATE,
-    TEST_SIZE
-)
+from .config import RANDOM_STATE, TEST_SIZE
+from .data import get_features_and_target, get_schema, load_raw_dataset, split_train_test
 from .evaluation import (
-    make_cv,
+    bootstrap_confidence_intervals,
     cross_validate_models,
-    get_oof_probabilities,
-    select_threshold,
-    get_calibration_curve,
-    expected_cost_curve,
     evaluate_on_test,
-    bootstrap_confidence_intervals
+    expected_cost_curve,
+    get_calibration_curve,
+    get_oof_probabilities,
+    make_cv,
+    select_threshold,
+)
+from .interpretability import (
+    build_error_analysis,
+    failure_mode_breakdown,
+    false_negatives_table,
+    false_positives_table,
+    native_importance_table,
+    permutation_importance_table,
+    slice_performance,
 )
 from .models import (
     build_models,
     compute_scale_pos_weight,
+    select_final_model,
     tune_random_forest,
     tune_xgboost,
-    select_final_model
-)
-from .interpretability import(
-    permutation_importance_table,
-    native_importance_table,
-    slice_performance,
-    failure_mode_breakdown,
-    build_error_analysis,
-    false_negatives_table,
-    false_positives_table
 )
 from .plotting import (
     plot_calibration,
@@ -55,16 +42,21 @@ from .plotting import (
     plot_threshold_tradeoff,
     save_figure,
 )
+from .processing import (
+    add_engineered_features,
+    build_preprocessors,
+    get_engineered_numerical_features,
+)
 from .reporting import (
-    create_output_directories,
-    save_table,
     classification_report_table,
-    confidence_interval_table,
+    create_output_directories,
+    print_final_summary,
     save_model_artifacts,
-    print_final_summary
+    save_table,
 )
 
-def main():
+
+def main() -> int:
     # Configuration
     print(f"RANDOM_STATE = {RANDOM_STATE}")
     print(f"TEST_SIZE = {TEST_SIZE}")
@@ -120,8 +112,10 @@ def main():
     ## Tuned vs untuned comparison
     baseline_scores = cv_results.set_index("Model")["CV Average Precision"]
 
-    tuning_comparison = pd.DataFrame([{"Model": "Random Forest", "Untuned CV Average Precision": baseline_scores["Random Forest"], "Tuned CV Average Precision": rf_search.best_score_},
-                                      {"Model": "XGBoost", "Untuned CV Average Precision": baseline_scores["XGBoost"], "Tuned CV Average Precision": xgb_search.best_score_}])
+    tuning_comparison = pd.DataFrame([{"Model": "Random Forest", "Untuned CV Average Precision": baseline_scores["Random Forest"],
+                                       "Tuned CV Average Precision": rf_search.best_score_},
+                                      {"Model": "XGBoost", "Untuned CV Average Precision": baseline_scores["XGBoost"],
+                                       "Tuned CV Average Precision": xgb_search.best_score_}])
     tuning_comparison["Improvement"] = tuning_comparison["Tuned CV Average Precision"] - tuning_comparison["Untuned CV Average Precision"]
     print(tuning_comparison.round(4))
     save_table(tuning_comparison, tables_dir / "tuning_comparison.csv", include_index=False)
@@ -168,7 +162,8 @@ def main():
     # Confidence intervals
     bootstrap_metrics = bootstrap_confidence_intervals(target_data_test, test_probability, final_threshold)
 
-    ci_table = pd.DataFrame({metric: {"Point estimate": final_test_metrics.get(metric, np.mean(values)),"Bootstrap mean": np.mean(values),"2.5th percentile": np.percentile(values, 2.5),
+    ci_table = pd.DataFrame({metric: {"Point estimate": final_test_metrics.get(metric, np.mean(values)),
+                                      "Bootstrap mean": np.mean(values),"2.5th percentile": np.percentile(values, 2.5),
                                       "97.5th percentile": np.percentile(values, 97.5)}for metric, values in bootstrap_metrics.items()}).T
     print(ci_table.round(3))
 
@@ -199,7 +194,8 @@ def main():
     # Conclusion
     ## Key results
     print_final_summary(final_model_name, final_threshold, final_test_metrics, ci_table)
-    model_path, metadata_path = save_model_artifacts(final_model, final_model_name, final_threshold, cost_minimizing_threshold, final_test_metrics, artifacts_dir, RANDOM_STATE, TEST_SIZE)
+    model_path, metadata_path = save_model_artifacts(final_model, final_model_name, final_threshold, cost_minimizing_threshold,
+                                                     final_test_metrics, artifacts_dir, RANDOM_STATE, TEST_SIZE)
     print(f"Model saved to: {model_path}")
     print(f"Metadata saved to: {metadata_path}")
 

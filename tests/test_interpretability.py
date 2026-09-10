@@ -14,7 +14,7 @@ from predictive_maintenance.interpretability import (
     false_positives_table,
     native_importance_table,
     permutation_importance_table,
-    slice_performance
+    slice_performance,
 )
 
 

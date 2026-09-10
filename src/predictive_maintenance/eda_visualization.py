@@ -1,9 +1,12 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sns
+from matplotlib.container import BarContainer
+from matplotlib.figure import Figure
 
 
-def plot_normalized_distribution(maintenance_df, feature, unit, target_column="Machine failure"):
+def plot_normalized_distribution(maintenance_df: pd.DataFrame, feature: str, unit: str, target_column: str="Machine failure") -> tuple[Figure, Figure]:
     fig1, ax1 = plt.subplots()
     sns.histplot(data=maintenance_df, x=feature, hue=target_column, stat="density", common_norm=False, kde=True, ax=ax1)
     ax1.set_title(f"{feature} Distribution by {target_column} (normalized)")
@@ -15,24 +18,26 @@ def plot_normalized_distribution(maintenance_df, feature, unit, target_column="M
     return fig1, fig2
 
 
-def plot_failure_rate_by_type(maintenance_df, target_column="Machine failure"):
+def plot_failure_rate_by_type(maintenance_df: pd.DataFrame, target_column: str="Machine failure") -> tuple[Figure, pd.Series]:
     failure_rate_by_type = (maintenance_df.groupby("Type")[target_column].mean() * 100).reindex(["L", "M", "H"])
     fig, ax = plt.subplots()
     failure_rate_by_type.plot.bar(ax=ax, color=["steelblue", "goldenrod", "tomato"])
-    ax.bar_label(ax.containers[0], fmt="%.2f%%")
+    container = ax.containers[0]
+    if isinstance(container, BarContainer):
+        ax.bar_label(container, fmt="%.2f%%")
     ax.set_title("Failure Rate by Product Type")
     ax.set_ylabel("Failure Rate (%)")
     return fig, failure_rate_by_type
 
 
-def plot_torque_vs_speed(maintenance_df, target_column="Machine failure"):
+def plot_torque_vs_speed(maintenance_df: pd.DataFrame, target_column: str="Machine failure") -> Figure:
     fig, ax = plt.subplots()
     sns.scatterplot(data=maintenance_df, x="Rotational speed", y="Torque", hue=target_column, alpha=0.6, ax=ax)
     ax.set_title("Torque vs. Rotational Speed by Machine Failure")
     return fig
 
 
-def plot_power_estimate(maintenance_df, target_column="Machine failure"):
+def plot_power_estimate(maintenance_df: pd.DataFrame, target_column: str="Machine failure") -> Figure:
     rotational_speed_rad_s = maintenance_df["Rotational speed"] * (2 * np.pi / 60)
     power_estimate = maintenance_df["Torque"] * rotational_speed_rad_s
     fig, ax = plt.subplots(figsize=(8, 5))
@@ -45,7 +50,7 @@ def plot_power_estimate(maintenance_df, target_column="Machine failure"):
     return fig
 
 
-def plot_temperature_gap_vs_speed(maintenance_df, target_column="Machine failure"):
+def plot_temperature_gap_vs_speed(maintenance_df: pd.DataFrame, target_column: str="Machine failure") -> Figure:
     temperature_difference = maintenance_df["Process temperature"] - maintenance_df["Air temperature"]
     fig, ax = plt.subplots(figsize=(8, 5))
     sns.scatterplot(x=temperature_difference, y=maintenance_df["Rotational speed"], hue=maintenance_df[target_column],alpha=0.6, ax=ax)
