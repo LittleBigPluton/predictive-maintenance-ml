@@ -1,49 +1,12 @@
 # Predictive Maintenance Machine Learning
 
-An end-to-end machine learning project for predicting industrial equipment failures using the **AI4I 2020 Predictive Maintenance Dataset**. The repository covers data validation, exploratory analysis, feature engineering, model comparison, hyperparameter tuning, decision-threshold selection, calibration, cost-sensitive evaluation, interpretability, subgroup analysis and reproducible artifact generation.
+[![CI](https://github.com/LittleBigPluton/predictive-maintenance-ml/actions/workflows/ci.yml/badge.svg)](https://github.com/LittleBigPluton/predictive-maintenance-ml/actions/workflows/ci.yml)
 
-The project is designed as an example of a modular and reproducible binary-classification workflow built with Python, scikit-learn, XGBoost, pandas and Matplotlib.
-
-## Table of Contents
-
-- [Project Overview](#project-overview)
-- [Key Results](#key-results)
-- [Dataset](#dataset)
-- [Machine Learning Workflow](#machine-learning-workflow)
-- [Engineered Features](#engineered-features)
-- [Repository Structure](#repository-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Generated Outputs](#generated-outputs)
-- [Model Evaluation](#model-evaluation)
-- [Interpretability and Error Analysis](#interpretability-and-error-analysis)
-- [Reproducibility](#reproducibility)
-- [Limitations](#limitations)
-- [Future Improvements](#future-improvements)
-- [License](#license)
-
-## Project Overview
-
-The objective is to predict the binary `Machine failure` target while accounting for the strong class imbalance in the dataset.
-
-The workflow compares several baseline and imbalance-aware models:
-
-- Dummy classifier
-- Logistic Regression
-- Balanced Logistic Regression
-- L1-regularized Logistic Regression
-- Decision Tree
-- Random Forest
-- XGBoost
-- Class-weighted XGBoost
-
-The final pipeline uses cross-validation for model comparison and hyperparameter tuning, out-of-fold predictions for threshold selection and a held-out test set for final evaluation.
-
-Identifiers such as `UDI` and `Product ID` are excluded from model inputs.
+An end-to-end machine learning project for predicting industrial equipment failures using the **AI4I 2020 Predictive Maintenance Dataset**. The project demonstrates a modular and reproducible binary-classification workflow covering feature engineering, model selection, threshold optimization, uncertainty estimation, interpretability and error analysis.
 
 ## Key Results
 
-The **Tuned Random Forest** was selected as the final model.
+The **Tuned Random Forest** was selected using cross-validated Average Precision and evaluated once on the held-out test set.
 
 | Metric | Result |
 |---|---:|
@@ -73,6 +36,53 @@ The final confusion matrix contained:
 - 1,929 correctly identified non-failures
 
 Hyperparameter tuning produced only a marginal improvement for Random Forest, from **0.8931** to **0.8937** cross-validated Average Precision. XGBoost improved from **0.8651** to **0.8812** but remained below the Random Forest.
+
+### Evaluation Snapshot
+
+<p align="center">
+  <img src="reports/cli/figures/precision_recall_curve.png" width="48%" alt="Precision-recall curve">
+  <img src="reports/cli/figures/confusion_matrix.png" width="48%" alt="Confusion matrix">
+</p>
+
+---
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Key Results](#key-results)
+- [Dataset](#dataset)
+- [Machine Learning Workflow](#machine-learning-workflow)
+- [Engineered Features](#engineered-features)
+- [Repository Structure](#repository-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Generated Outputs](#generated-outputs)
+- [Model Evaluation](#model-evaluation)
+- [Interpretability and Error Analysis](#interpretability-and-error-analysis)
+- [Reproducibility](#reproducibility)
+- [Limitations](#limitations)
+- [License](#license)
+
+---
+
+## Project Overview
+
+The objective is to predict the binary `Machine failure` target while accounting for the strong class imbalance in the dataset.
+
+The workflow compares several baseline and imbalance-aware models:
+
+- Dummy classifier
+- Logistic Regression
+- Balanced Logistic Regression
+- L1-regularized Logistic Regression
+- Decision Tree
+- Random Forest
+- XGBoost
+- Class-weighted XGBoost
+
+The final pipeline uses cross-validation for model comparison and hyperparameter tuning, out-of-fold predictions for threshold selection and a held-out test set for final evaluation.
+
+Identifiers such as `UDI` and `Product ID` are excluded from model inputs.
 
 ## Dataset
 
@@ -124,6 +134,8 @@ The project follows this sequence:
 16. Perform feature-importance, slice-performance, failure-mode and error analyses.
 17. Save figures, tables, model artifacts and metadata.
 
+---
+
 ## Engineered Features
 
 Three interaction features are created from the original measurements.
@@ -157,10 +169,15 @@ This interaction represents accumulated mechanical strain and supports overstrai
 
 An ablation analysis compares raw features against raw plus engineered features.
 
+---
+
 ## Repository Structure
 
 ```text
 predictive-maintenance-ml/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── artifacts/
 │   ├── final_model.joblib
 │   └── model_metadata.json
@@ -243,6 +260,8 @@ Install the development dependencies when the optional development group is conf
 pip install -e ".[dev]"
 ```
 
+---
+
 ## Usage
 
 ### Run the command-line workflow
@@ -282,9 +301,11 @@ notebooks/predictive_maintenance_ml_final.ipynb
 
 The notebook contains the full analytical narrative, EDA, feature-ablation study, model evaluation, interpretation and limitations.
 
-### Run tests
+### Quality Checks and Tests
 
 ```bash
+ruff check .
+mypy
 pytest -v
 ```
 
@@ -399,6 +420,8 @@ The final tuned Random Forest parameters are:
 ```
 
 The fitted model, selected threshold, metadata, figures and tables can be regenerated through the CLI.
+
+---
 
 ## Limitations
 
