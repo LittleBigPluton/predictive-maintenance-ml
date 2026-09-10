@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "predictive-maintenance-ml"
-version = "0.1.0"
+version = "1.0.0"
 description = "An end-to-end supervised learning pipeline for machine failure prediction using the AI4I 2020 dataset."
 requires-python = ">=3.12"
 
