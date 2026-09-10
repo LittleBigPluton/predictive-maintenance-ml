@@ -1,12 +1,8 @@
-from predictive_maintenance.data import (
-    get_features_and_target,
-    get_schema,
-    load_raw_dataset
-)
+from predictive_maintenance.data import get_features_and_target, get_schema, load_raw_dataset
 from predictive_maintenance.processing import (
     add_engineered_features,
     build_preprocessors,
-    get_engineered_numerical_features
+    get_engineered_numerical_features,
 )
 
 

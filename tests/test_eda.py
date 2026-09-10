@@ -1,23 +1,19 @@
 import matplotlib.pyplot as plt
 
-from predictive_maintenance.data import (
-    get_features_and_target,
-    get_schema,
-    load_raw_dataset
-)
+from predictive_maintenance.data import get_features_and_target, get_schema, load_raw_dataset
 from predictive_maintenance.data_quality import (
     class_distribution,
     duplicate_check,
     missing_values_report,
     process_temperature_check,
-    range_validation
+    range_validation,
 )
 from predictive_maintenance.eda_visualization import (
     plot_failure_rate_by_type,
     plot_normalized_distribution,
     plot_power_estimate,
     plot_temperature_gap_vs_speed,
-    plot_torque_vs_speed
+    plot_torque_vs_speed,
 )
 
 
