@@ -179,7 +179,6 @@ predictive-maintenance-ml/
 │   └── workflows/
 │       └── ci.yml
 ├── artifacts/
-│   ├── final_model.joblib
 │   └── model_metadata.json
 ├── notebooks/
 │   └── predictive_maintenance_ml_final.ipynb
@@ -317,8 +316,8 @@ The CLI and notebook generate reusable outputs rather than relying only on inter
 
 ```text
 artifacts/
-├── final_model.joblib
-└── model_metadata.json
+├── final_model.joblib       # generated locally; excluded from version control
+└── model_metadata.json      # tracked reproducibility metadata
 ```
 
 The metadata file stores information such as:
